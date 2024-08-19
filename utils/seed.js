@@ -31,6 +31,7 @@ connection.once('open', async () => {
         { username: users[2].username, thoughtText: 'Thought 9', reactions: [{reactionBody: 'Reaction 0', username: users[0].username}, {reactionBody: 'Reaction 2', username: users[2].username}]  },
         { username: users[0].username, thoughtText: 'Thought 10'},
       ]);
+      
       thoughts.forEach(async (thought) => {
         await User.findOneAndUpdate({username: thought.username}, { $addToSet: { thoughts: thought._id }});
       });
