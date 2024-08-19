@@ -12,7 +12,7 @@ connection.once('open', async () => {
       await Thought.deleteMany({});
   
       // Create 3 users
-      const users = await User.create([
+      let users = await User.create([
         { username: 'user1', email: 'user1@example.com' },
         { username: 'user2', email: 'user2@example.com' },
         { username: 'user3', email: 'user3@example.com' },
@@ -31,7 +31,12 @@ connection.once('open', async () => {
         { username: users[2].username, thoughtText: 'Thought 9', reactions: [{reactionBody: 'Reaction 0', username: users[0].username}, {reactionBody: 'Reaction 2', username: users[2].username}]  },
         { username: users[0].username, thoughtText: 'Thought 10'},
       ]);
-
+      thoughts.forEach(async (thought) => {
+        await User.findOneAndUpdate({username: thought.username}, { $addToSet: { thoughts: thought._id }});
+      });
+      
+      users = await User.find();
+  
       console.table(users);
       console.table(thoughts);
       console.log('Seed data created successfully!');
