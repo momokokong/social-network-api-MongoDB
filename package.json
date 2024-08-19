@@ -1,0 +1,20 @@
+{
+  "name": "social-network-api-mongodb",
+  "version": "1.0.0",
+  "description": "A social network backend featured by express.js and MongoDB/Mongoose to implement user, friend, thought and reaction.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index",
+    "seed": "node utils/seed"
+  },
+  "license": "WTFPL",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.5.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
