@@ -1,27 +1,46 @@
-const { Schema, model } = require('mongoose');
-const Tag = require('./Tag');
+const { Schema, model, Types } = require('mongoose');
 
-// Schema to create Post model
-const applicationSchema = new Schema(
+const reactionSchema = new Schema(
   {
-    published: {
-      type: Boolean,
-      default: false,
+  reactionId: {
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
+  },
+  reactionBody: {
+    type: String,
+    required: true,
+    maxLength: 280,
+  },
+  username: {
+    type: String, 
+    required: true
+  },
+  createdAt: { 
+    type: Date, 
+    default: Date.now, 
+    get: (time) => new Date(time).toISOString() 
+  },
+});
+
+// Schema to create Thought model
+const thoughtSchema = new Schema(
+  {
+    username: { 
+      type: String, 
+      required: true
+    }, 
+    thoughtText: { 
+      type: String, 
+      required: true, 
+      minLength: 1, 
+      maxLength: 280  
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+    createdAt: { 
+      type: Date, 
+      default: Date.now, 
+      get: (time) => new Date(time).toISOString() 
     },
-    buildSuccess: {
-      type: Boolean,
-      default: true,
-    },
-    description: {
-      type: String,
-      minLength: 4,
-      maxLength: 500,
-    },
-    tags: [Tag],
+    reactions: [ reactionSchema ]
   },
   {
     toJSON: {
@@ -31,15 +50,13 @@ const applicationSchema = new Schema(
   }
 );
 
-// Create a virtual property `getTags` that gets the amount of tags associated with an application
-applicationSchema
-  .virtual('getTags')
-  // Getter
+thoughtSchema
+  .virtual('reactionCount')
   .get(function () {
-    return this.tags.length;
+    return this.reactions.length;
   });
 
-// Initialize our Application model
-const Application = model('application', applicationSchema);
+// Initialize our thought model
+const Thought = model('thought', thoughtSchema);
 
-module.exports = Application;
+module.exports = Thought;

@@ -1,14 +1,14 @@
-const router = require('express').Router();
-const {
-  getUsers,
-  getSingleUser,
-  createUser,
-} = require('../../controllers/userController');
+// const router = require('express').Router();
+// const {
+//   getUsers,
+//   getSingleUser,
+//   createUser,
+// } = require('../../controllers/userController');
 
-// /api/users
-router.route('/').get(getUsers).post(createUser);
+// // /api/users
+// router.route('/').get(getUsers).post(createUser);
 
-// /api/users/:userId
-router.route('/:userId').get(getSingleUser);
+// // /api/users/:userId
+// router.route('/:userId').get(getSingleUser);
 
-module.exports = router;
+// module.exports = router;
