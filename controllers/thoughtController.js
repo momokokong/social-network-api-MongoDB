@@ -35,11 +35,11 @@ module.exports = {
       
       if (!user) {
         return res.status(404).json({
-          message: 'Thought created, but found no user with that ID',
+          message: 'Great thought, but found no user with that ID',
         })
       }
 
-      res.json(thought);
+      res.json({ message: 'Great thought created!', thought });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
@@ -48,18 +48,17 @@ module.exports = {
   // TODO: Add comments to the functionality of the updateThought method
   async updateThought(req, res) {
     try {
-    //   const thought = await Thought.findOneAndUpdate(
-    //     { _id: req.params.thoughtId },
-    //     { $set: req.body },
-    //     { runValidators: true, new: true }
-    //   );
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { thoughtText: req.body.thoughtText },
+        { runValidators: true, new: true }
+      );
 
-    //   if (!thought) {
-    //     return res.status(404).json({ message: 'No thought with this id!' });
-    //   }
+      if (!thought) {
+        return res.status(404).json({ message: 'Check username and thoughtText' });
+      }
 
-      // res.json(thought);
-      res.json("Update the thought.");
+      res.json({ message: 'Thought successfully updated!', thought });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
@@ -68,23 +67,28 @@ module.exports = {
   // TODO: Add comments to the functionality of the deleteThought method
   async deleteThought(req, res) {
     try {
-      // const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
+      console.log(req.params.thoughtId);
+      const thought = await Thought.findOneAndDelete(
+        { _id: req.params.thoughtId }, 
+        { new: true }
+      );
+      console.log(thought);
 
-      // if (!thought) {
-      //   return res.status(404).json({ message: 'No thought with this id!' });
-      // }
+      if (!thought) {
+        return res.status(404).json({ message: 'No thought with this id!' });
+      }
 
-      // const user = await User.findOneAndUpdate(
-      //   { thoughts: req.params.thoughtId },
-      //   { $pull: { thoughts: req.params.thoughtId } },
-      //   { new: true }
-      // );
+      const user = await User.findOneAndUpdate(
+        { username: thought.username },
+        { $pull: { thoughts: req.params.thoughtId } },
+        { new: true }
+      );
 
-      // if (!user) {
-      //   return res.status(404).json({
-      //     message: 'Thought created but no user with this id!',
-      //   });
-      // }
+      if (!user) {
+        return res.status(404).json({
+          message: 'Thought created but no user with this name!',
+        });
+      }
 
       res.json({ message: 'Thought successfully deleted!' });
     } catch (err) {
@@ -94,17 +98,17 @@ module.exports = {
   // TODO: Add comments to the functionality of the addTag method
   async addReaction(req, res) {
     try {
-      // const thought = await Thought.findOneAndUpdate(
-      //   { _id: req.params.thoughtId },
-      //   { $addToSet: { tags: req.body } },
-      //   { runValidators: true, new: true }
-      // );
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { tags: req.body } },
+        { runValidators: true, new: true }
+      );
 
-      // if (!thought) {
-      //   return res.status(404).json({ message: 'No thought with this id!' });
-      // }
+      if (!thought) {
+        return res.status(404).json({ message: 'No thought with this id!' });
+      }
 
-      // res.json(thought);
+      res.json(thought);
       res.json({ message: 'Reaction added!' });
     } catch (err) {
       res.status(500).json(err);
