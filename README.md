@@ -24,7 +24,7 @@ To run this on a local machine:
 1. Clone the repo: https://github.com/momokokong/social-network-api-MongoDB
 2. In the terminal, move to where the cloned local repo is.
 3. `npm install` to install the necessary node modules.
-4. `npm run seed` to seed the database.
+4. `npm run seed` to wipe and seed the database.
 5. `npm run start` to start the server. 
 
 ***
