@@ -2,25 +2,29 @@ const { Schema, model, Types } = require('mongoose');
 
 const reactionSchema = new Schema(
   {
-  reactionId: {
-    type: Schema.Types.ObjectId,
-    default: () => new Types.ObjectId(),
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
+    },
+    reactionBody: {
+      type: String,
+      required: true,
+      maxLength: 280,
+    },
+    username: {
+      type: String, 
+      required: true
+    },
+    createdAt: { 
+      type: Date, 
+      default: Date.now, 
+      get: (time) => new Date(time).toISOString() 
+    },
   },
-  reactionBody: {
-    type: String,
-    required: true,
-    maxLength: 280,
+  {
+    _id: false,
   },
-  username: {
-    type: String, 
-    required: true
-  },
-  createdAt: { 
-    type: Date, 
-    default: Date.now, 
-    get: (time) => new Date(time).toISOString() 
-  },
-});
+);
 
 // Schema to create Thought model
 const thoughtSchema = new Schema(
