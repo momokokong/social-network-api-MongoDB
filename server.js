@@ -7,6 +7,8 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// use routes from ./routes
 app.use(routes);
 
 db.once('open', () => {

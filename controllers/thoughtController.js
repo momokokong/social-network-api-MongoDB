@@ -1,6 +1,7 @@
 const { Thought, User } = require('../models');
 
 module.exports = {
+  // Get all thoughts
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find();
@@ -9,11 +10,13 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  // Get a single user
   async getSingleThought(req, res) {
     try {
-      console.log(req.params.thoughtId);
+      // if viewing a single thought, populate the reactions
       const thought = await Thought.findById(req.params.thoughtId).populate("reactions");
-      console.log(thought);
+
       if (!thought) {
         return res.status(404).json({ message: 'No thought with that ID' });
       }
@@ -23,10 +26,12 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // TODO: Add comments to the functionality of the createThought method
+
+  // Create a new thought
   async createThought(req, res) {
     try {
       const thought = await Thought.create(req.body);
+      // add the thought to the user's thoughts array
       const user = await User.findOneAndUpdate(
         { username: req.body.username },
         { $addToSet: { thoughts: thought._id } },
@@ -45,7 +50,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // TODO: Add comments to the functionality of the updateThought method
+
+  // update a thought
   async updateThought(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -64,7 +70,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // TODO: Add comments to the functionality of the deleteThought method
+
+  // delete a thought
   async deleteThought(req, res) {
     try {
       console.log(req.params.thoughtId);
@@ -78,6 +85,7 @@ module.exports = {
         return res.status(404).json({ message: 'No thought with this id!' });
       }
 
+      // remove the thought from a user's thoughts array
       const user = await User.findOneAndUpdate(
         { username: thought.username },
         { $pull: { thoughts: req.params.thoughtId } },
@@ -95,9 +103,11 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // TODO: Add comments to the functionality of the addTag method
+
+  // add a reaction to a thought by thought id
   async addReaction(req, res) {
     try {
+      // make sure the username exists in User
       if (!(await User.findOne({ username: req.body.username }))) {
         return res.status(400).json({ message: 'Are you a real person?' });
       }
@@ -117,7 +127,8 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // TODO: Add comments to the functionality of the addTag method
+
+  // delete a reaction from a thought by thought id
   async deleteReaction(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -129,6 +140,7 @@ module.exports = {
       if (!thought) {
         return res.status(404).json({ message: 'No thought with this id!' });
       }
+      
       res.json({ message: 'Reaction removed!', thought });
     } catch (err) {
       res.status(500).json(err);

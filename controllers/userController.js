@@ -10,9 +10,11 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  
   // Get a single user
   async getSingleUser(req, res) {
     try {
+      // if viewing a single user, populate the thoughts and friends the user has
       const user = await User.findOne({ _id: req.params.uid }).populate("thoughts").populate("friends");
 
       if (!user) {
@@ -24,6 +26,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
   // create a new user
   async createUser(req, res) {
     try {
@@ -33,6 +36,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
   // Delete a user and associated apps
   async deleteUser(req, res) {
     try {
@@ -41,7 +45,8 @@ module.exports = {
       if (!user) {
         return res.status(404).json({ message: 'No user with that ID' });
       }
-
+      
+      // delete thoughts for each thought._id in user.thoughts array
       await Thought.deleteMany({ _id: { $in: user.thoughts } });
 
       res.json({ message: 'User and the user\'s thoughts have been deleted!' })
@@ -49,6 +54,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
   // Update a user
   async updateUser(req, res) {
     try {
@@ -67,12 +73,14 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
   // Add a friend to a user
   async addFriend(req, res) {
     try {
       if (req.params.uid === req.params.fid) {
         return res.status(400).json({ message: 'Cannot add yourself as a friend!' });
       }
+      // when fid is not a user
       if (!(await User.findById(req.params.fid))) {
         return res.status(400).json({ message: 'Is your friend a real person?' });
       }
@@ -92,9 +100,11 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
   // Delete a friend from a user
   async deleteFriend(req, res) {
     try {
+      // when fid is not a user
       if (!(await User.findById(req.params.fid))) {
         return res.status(400).json({ message: 'Is your friend a real person?' });
       }
@@ -114,5 +124,4 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-
 };
