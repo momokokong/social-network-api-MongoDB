@@ -16,6 +16,7 @@ connection.once('open', async () => {
         { username: 'user1', email: 'user1@example.com' },
         { username: 'user2', email: 'user2@example.com' },
         { username: 'user3', email: 'user3@example.com' },
+        { username: 'koko', email: 'koko@koko.com' },
       ]);
   
       // Create 10 thoughts, linking to the users
@@ -30,6 +31,8 @@ connection.once('open', async () => {
         { username: users[1].username, thoughtText: 'Thought 8', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}, {reactionBody: 'Reaction 0', username: users[0].username}]  },
         { username: users[2].username, thoughtText: 'Thought 9', reactions: [{reactionBody: 'Reaction 0', username: users[0].username}, {reactionBody: 'Reaction 2', username: users[2].username}]  },
         { username: users[0].username, thoughtText: 'Thought 10'},
+        { username: users[3].username, thoughtText: 'I miss you, Biru <3.  Hope you still sleep warm.', reactions: [{reactionBody: 'You are the black cat of my life.', username: users[3].username}, {reactionBody: 'Biru attack!', username: users[2].username}]  },
+        { username: users[3].username, thoughtText: 'Biru the cat was feisty.'}
       ]);
       
       thoughts.forEach(async (thought) => {
