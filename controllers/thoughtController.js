@@ -61,7 +61,7 @@ module.exports = {
       );
 
       if (!thought) {
-        return res.status(404).json({ message: 'Check username and thoughtText' });
+        return res.status(404).json({ message: 'Check thoughtText' });
       }
 
       res.json({ message: 'Thought successfully updated!', thought });
@@ -140,7 +140,7 @@ module.exports = {
       if (!thought) {
         return res.status(404).json({ message: 'No thought with this id!' });
       }
-      
+
       res.json({ message: 'Reaction removed!', thought });
     } catch (err) {
       res.status(500).json(err);

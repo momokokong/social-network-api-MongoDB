@@ -60,7 +60,7 @@ module.exports = {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.uid }, 
-        { ...req.body }, 
+        { username: req.body.username, email: req.body.email }, 
         { new: true }
       );
 

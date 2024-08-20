@@ -21,17 +21,17 @@ connection.once('open', async () => {
   
       // Create thoughts with various length of reactions
       const thoughts = await Thought.create([
-        { username: users[0].username, thoughtText: 'Thought 1', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}, {reactionBody: 'Reaction A', username: users[2].username}] },
-        { username: users[1].username, thoughtText: 'Thought 2', reactions: [{reactionBody: 'Reaction 2', username: users[1].username}, {reactionBody: 'Reaction B', username: users[2].username}]  },
-        { username: users[2].username, thoughtText: 'Thought 3', reactions: [{reactionBody: 'Reaction 3', username: users[1].username}, {reactionBody: 'Reaction V', username: users[2].username}]  },
-        { username: users[0].username, thoughtText: 'Thought 4', reactions: [{reactionBody: 'Reaction 4', username: users[0].username}]  },
-        { username: users[1].username, thoughtText: 'Thought 5', reactions: [{reactionBody: 'Reaction 5', username: users[1].username}]  },
-        { username: users[2].username, thoughtText: 'Thought 6', reactions: [{reactionBody: 'Reaction 6', username: users[2].username}]  },
-        { username: users[0].username, thoughtText: 'Thought 7', reactions: [{reactionBody: 'Reaction 7', username: users[1].username}, {reactionBody: 'Reaction D', username: users[2].username}]  },
-        { username: users[1].username, thoughtText: 'Thought 8', reactions: [{reactionBody: 'Reaction 8', username: users[1].username}, {reactionBody: 'Reaction E', username: users[0].username}]  },
-        { username: users[2].username, thoughtText: 'Thought 9', reactions: [{reactionBody: 'Reaction 0', username: users[0].username}, {reactionBody: 'Reaction F', username: users[2].username}]  },
+        { username: users[0].username, thoughtText: 'Thought 1', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}, {reactionBody: 'Reaction 2', username: users[2].username}] },
+        { username: users[1].username, thoughtText: 'Thought 2', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}, {reactionBody: 'Reaction 2', username: users[2].username}]  },
+        { username: users[2].username, thoughtText: 'Thought 3', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}, {reactionBody: 'Reaction 2', username: users[2].username}]  },
+        { username: users[0].username, thoughtText: 'Thought 4', reactions: [{reactionBody: 'Reaction 1', username: users[0].username}]  },
+        { username: users[1].username, thoughtText: 'Thought 5', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}]  },
+        { username: users[2].username, thoughtText: 'Thought 6', reactions: [{reactionBody: 'Reaction 1', username: users[2].username}]  },
+        { username: users[0].username, thoughtText: 'Thought 7', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}, {reactionBody: 'Reaction 2', username: users[2].username}]  },
+        { username: users[1].username, thoughtText: 'Thought 8', reactions: [{reactionBody: 'Reaction 1', username: users[1].username}, {reactionBody: 'Reaction 0', username: users[0].username}]  },
+        { username: users[2].username, thoughtText: 'Thought 9', reactions: [{reactionBody: 'Reaction 0', username: users[0].username}, {reactionBody: 'Reaction 2', username: users[2].username}]  },
         { username: users[0].username, thoughtText: 'Thought 10'},
-        { username: users[3].username, thoughtText: 'I miss you, Biru <3.  Hope you still sleep warm.', reactions: [{reactionBody: 'You are the black cat of my life.', username: users[3].username}, {reactionBody: 'Biru attack!', username: users[2].username}]  },
+        { username: users[3].username, thoughtText: 'I miss you, Biru <3.  Hope you still sleep warm.', reactions: [{reactionBody: 'You are the black cat of my life.', username: users[3].username}, {reactionBody: 'Biru attack', username: users[2].username}]  },
         { username: users[3].username, thoughtText: 'Biru the cat was feisty.'}
       ]);
       
@@ -40,6 +40,10 @@ connection.once('open', async () => {
         await User.findOneAndUpdate({username: thought.username}, { $addToSet: { thoughts: thought._id }});
       });
       
+      users = await User.find();
+  
+      console.table(users);
+      console.table(thoughts);
       console.log('Seed data created successfully!');
     } catch (err) {
       console.error('Error seeding data:', err);
